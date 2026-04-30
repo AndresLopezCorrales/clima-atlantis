@@ -6,6 +6,19 @@ Single Page Application del clima construida en Angular + SCSS + Typescript. Per
 
 ---
 
+## Screenshots
+
+<img src="./src/app/img-readme/empty.png" width="800"/>
+<img src="./src/app/img-readme/dropdown.png" width="800"/>
+<img src="./src/app/img-readme/spinner.png" width="800"/>
+<img src="./src/app/img-readme/full.png" width="800"/>
+<img src="./src/app/img-readme/not-exists.png" width="800"/>
+<img src="./src/app/img-readme/no-wifi.png" width="800"/>
+
+---
+
+---
+
 ## Tabla de contenidos
 
 - [Tecnologías](#tecnologías)
@@ -42,8 +55,8 @@ Single Page Application del clima construida en Angular + SCSS + Typescript. Per
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/tu-usuario/weather-widget.git
-cd weather-widget
+git clone https://github.com/AndresLopezCorrales/clima-atlantis.git
+cd clima-atlantis
 
 # Instalar dependencias
 npm install
