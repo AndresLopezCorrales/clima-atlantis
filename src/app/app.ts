@@ -1,11 +1,12 @@
-import { Component, signal } from '@angular/core';
+// src/app/app.component.ts
+
+import { Component } from '@angular/core';
+import { WeatherWidgetComponent } from './components/weather-widget/weather-widget';
 
 @Component({
   selector: 'app-root',
-  imports: [],
-  templateUrl: './app.html',
-  styleUrl: './app.scss'
+  standalone: true,
+  imports: [WeatherWidgetComponent],
+  template: `<app-weather-widget />`,
 })
-export class App {
-  protected readonly title = signal('weather-widget');
-}
+export class App {}

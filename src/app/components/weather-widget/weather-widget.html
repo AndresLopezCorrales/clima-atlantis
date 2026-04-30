@@ -1,0 +1,173 @@
+<div class="newspaper">
+  <!-- ══ MASTHEAD ══ -->
+  <header class="masthead">
+    <h1 class="masthead-title">Clima <em>Atlantis</em></h1>
+    <p class="masthead-tagline">Hecho por: Andrés López Corrales</p>
+    <div class="masthead-rule"></div>
+  </header>
+
+  <!-- ══ CACHÉ ══ -->
+  @if (recentSearches.length > 0) {
+    <div class="cache-strip">
+      <span class="cache-label">Recientes:</span>
+      @for (item of recentSearches; track item.city) {
+        <button class="cache-tag" (click)="selectSuggestion(item.city)">
+          {{ item.city }}
+        </button>
+      }
+      <button class="cache-clear" (click)="clearCache()" title="Limpiar historial">✕</button>
+    </div>
+  }
+
+  <!-- ══ BUSCADOR ══ -->
+  <section class="search-bar-row">
+    <span class="search-label">BUSCAR CIUDAD</span>
+    <div class="search-wrapper">
+      <span class="search-pin">
+        <i class="fa-solid fa-location-dot"></i>
+      </span>
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Ej: Tokyo, JP"
+        class="search-input"
+        (keyup.enter)="onSearch()"
+        (input)="onInputChange()"
+        autocomplete="off"
+      />
+
+      <!-- Sugerencias geocoding -->
+      @if (citySuggestions.length > 0) {
+        <div class="suggestions-dropdown">
+          @for (city of citySuggestions; track city.lat) {
+            <div class="suggestion-item" (mousedown)="selectCity(city)">
+              <i class="fa-solid fa-location-dot"> </i><strong> {{ city.name }}</strong>
+              <span class="suggestion-meta">
+                @if (city.state) {
+                  {{ city.state }},
+                }
+                {{ city.country }}
+              </span>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <button class="search-btn" (click)="onSearch()" [disabled]="isLoading" title="Consultar">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+  </section>
+
+  <!-- ══ LOADING ══ -->
+  @if (isLoading) {
+    <div class="loading-row">
+      <div class="loading-dots"><span></span><span></span><span></span></div>
+      <p class="loading-text">Consultando los cielos&hellip;</p>
+    </div>
+  }
+
+  <!-- ══ ERROR ══ -->
+  @if (errorMessage && !isLoading) {
+    <div class="error-dispatch">
+      <span class="error-stamp">
+        <i class="fa-solid fa-circle-exclamation"></i>
+      </span>
+      <p>{{ errorMessage }}</p>
+    </div>
+  }
+
+  <!-- ══ CUERPO PRINCIPAL ══ -->
+  @if (currentWeather && !isLoading) {
+    <main class="edition-body">
+      <!-- Columna izquierda: clima actual -->
+      <article class="current-article">
+        <div class="article-eyebrow">
+          <span class="live-badge">Reporte del clima</span>
+        </div>
+
+        <h2 class="city-headline">
+          {{ currentWeather.name }}, {{ currentWeather.sys.country }}
+          <span class="coords">
+            {{ currentWeather.coord.lat | number: '1.4-4' }}°N &nbsp;·&nbsp;
+            {{ currentWeather.coord.lon | number: '1.4-4' }}°E
+          </span>
+        </h2>
+        <p class="condition-deck">{{ currentWeather.weather[0].description | titlecase }}</p>
+
+        <div class="temp-display">
+          <img
+            [src]="getWeatherIcon(currentWeather.weather[0].icon)"
+            [alt]="currentWeather.weather[0].description"
+            class="weather-icon"
+          />
+          <div class="temp-block">
+            <span class="temp-big">{{ currentWeather.main.temp | kelvinToCelsius }}</span>
+          </div>
+        </div>
+
+        <div class="temp-range">
+          Máx {{ currentWeather.main.temp_max | kelvinToCelsius }} &nbsp; Mín
+          {{ currentWeather.main.temp_min | kelvinToCelsius }} &nbsp; Sensación
+          {{ currentWeather.main.feels_like | kelvinToCelsius }}
+        </div>
+
+        <!-- Franja solar -->
+        <div class="solar-strip">
+          <span class="solar-time">
+            <i class="fa-solid fa-sun"></i>
+            {{ getSunTime(currentWeather.sys.sunrise) }}
+          </span>
+
+          <div class="solar-track">
+            <div class="solar-dot" [style.left]="getSunPosition() + '%'"></div>
+          </div>
+
+          <span class="solar-time">
+            <i class="fa-solid fa-moon"></i>
+            {{ getSunTime(currentWeather.sys.sunset) }}
+          </span>
+        </div>
+      </article>
+
+      <!-- Columna derecha: detalles -->
+      <aside class="details-column">
+        <div class="detail-card" *ngFor="let d of detailItems">
+          <div class="detail-icon">
+            <i [class]="d.icon"></i>
+          </div>
+          <div class="detail-body">
+            <p class="detail-label">{{ d.label }}</p>
+            <p class="detail-value">{{ d.value }}</p>
+            <p class="detail-sub">{{ d.sub }}</p>
+          </div>
+        </div>
+      </aside>
+    </main>
+  }
+
+  <!-- ══ PRONÓSTICO ══ -->
+  @if (forecast && !isLoading) {
+    <section class="forecast-chapter">
+      <div class="chapter-header">
+        <h3 class="chapter-title">Pronóstico a Cinco Días</h3>
+        <span class="chapter-note">Preparate para los cambios climáticos</span>
+      </div>
+      <div class="forecast-strip">
+        @for (day of forecast.list; track day.dt; let i = $index) {
+          <div class="forecast-tile">
+            <div class="tile-header">DÍA {{ i + 1 }}</div>
+            <p class="tile-date">{{ getDayName(day.dt_txt) }}</p>
+            <img
+              [src]="getWeatherIcon(day.weather[0].icon)"
+              [alt]="day.weather[0].main"
+              class="tile-icon"
+            />
+            <p class="tile-temp">{{ day.main.temp | kelvinToCelsius }}</p>
+            <p class="tile-desc">{{ day.weather[0].description | titlecase }}</p>
+          </div>
+        }
+      </div>
+    </section>
+  }
+</div>
