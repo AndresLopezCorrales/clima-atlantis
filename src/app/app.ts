@@ -1,5 +1,3 @@
-// src/app/app.component.ts
-
 import { Component } from '@angular/core';
 import { WeatherWidgetComponent } from './components/weather-widget/weather-widget';
 

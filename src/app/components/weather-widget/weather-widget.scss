@@ -1,6 +1,6 @@
 @use 'sass:color';
 
-// ── Variables locales ──────────────────────────────────────────────
+// Variables locales 
 $rule-color:  #c4b49a;
 $ink:         #1a1209;
 $ink-mid:     #3d2f1a;
@@ -10,14 +10,14 @@ $sepia:       #c8a96e;
 $paper:       #f5f0e8;
 $paper-dark:  #ece5d3;
 
-// ── Contenedor ────────────────────────────────────────────────────
+// Contenedor
 .newspaper {
   max-width: 960px;
   margin: 0 auto;
   padding: 2.5rem 2rem 4rem;
 }
 
-// ── Masthead ───────────────────────────────────────────────────────
+// Masthead
 .masthead {
   text-align: center;
   padding-bottom: 1.2rem;
@@ -49,7 +49,7 @@ $paper-dark:  #ece5d3;
   margin-top: 0.4rem;
 }
 
-// ── Buscador ───────────────────────────────────────────────────────
+// Buscador/Input
 .search-bar-row {
   display: flex;
   align-items: center;
@@ -144,7 +144,7 @@ $paper-dark:  #ece5d3;
   margin-left: 0.4rem;
 }
 
-// ── Loading ─────────────────────────────────────────────────────────
+// Spinner
 .loading-row {
   text-align: center;
   padding: 3rem 0;
@@ -173,7 +173,7 @@ $paper-dark:  #ece5d3;
   color: $ink-light;
 }
 
-// ── Error ────────────────────────────────────────────────────────────
+// Error
 .error-dispatch {
   border: 2px solid $rust;
   padding: 1rem 1.5rem;
@@ -187,7 +187,7 @@ $paper-dark:  #ece5d3;
   color: $rust;
 }
 
-// ── Cuerpo principal ──────────────────────────────────────────────────
+// Cuerpo principal
 .edition-body {
   display: grid;
   grid-template-columns: 1fr 320px;
@@ -373,7 +373,7 @@ $paper-dark:  #ece5d3;
   -webkit-text-stroke: 1px $rule-color;
 }
 
-// ── Pronóstico ──────────────────────────────────────────────────────
+// Pronóstico
 .forecast-chapter {
   margin-top: 2rem;
   border-top: 3px double $rule-color;
@@ -448,7 +448,7 @@ $paper-dark:  #ece5d3;
   font-style: italic;
 }
 
-// ── Caché strip ────────────────────────────────────────────────────
+// Caché strip
 .cache-strip {
   display: flex;
   align-items: center;
@@ -497,7 +497,7 @@ $paper-dark:  #ece5d3;
   &:hover { color: $rust; }
 }
 
-// ── Responsive ──────────────────────────────────────────────────────
+// Responsive
 @media (max-width: 680px) {
   .edition-body { grid-template-columns: 1fr; }
   .current-article { border-right: none; border-bottom: 1px solid $rule-color; padding-right: 0; }
@@ -512,6 +512,6 @@ $paper-dark:  #ece5d3;
   }
 
   .search-label {
-    display: none; // libera espacio en móvil
+    display: none;
   }
 }

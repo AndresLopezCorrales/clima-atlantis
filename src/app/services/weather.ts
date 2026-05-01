@@ -1,5 +1,3 @@
-// src/app/services/weather.service.ts
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
@@ -48,7 +46,7 @@ export class WeatherService {
       .slice(0, 5);
   }
 
-  // --- Caché de últimas 5 búsquedas ---
+  // Caché de últimas 5 búsquedas
 
   getRecentSearches(): CachedSearch[] {
     const raw = localStorage.getItem(this.CACHE_KEY);
@@ -57,11 +55,8 @@ export class WeatherService {
 
   addToCache(city: string): void {
     let searches = this.getRecentSearches();
-    // Eliminar si ya existe
     searches = searches.filter((s) => s.city.toLowerCase() !== city.toLowerCase());
-    // Agregar al inicio
     searches.unshift({ city, timestamp: Date.now() });
-    // Mantener solo las últimas 5
     searches = searches.slice(0, this.MAX_CACHE);
     localStorage.setItem(this.CACHE_KEY, JSON.stringify(searches));
   }
@@ -70,8 +65,7 @@ export class WeatherService {
     localStorage.removeItem(this.CACHE_KEY);
   }
 
-  // --- Manejo de errores ---
-
+  // Manejo de errores
   private handleError(error: HttpErrorResponse): Observable<never> {
     let message = 'Error desconocido';
     if (error.status === 0) {

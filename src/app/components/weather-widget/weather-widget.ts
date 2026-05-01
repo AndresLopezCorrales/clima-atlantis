@@ -100,7 +100,6 @@ export class WeatherWidgetComponent implements OnInit {
   }
 
   onInputFocus(): void {
-    // Mostrar caché solo si no hay sugerencias activas y no hay texto
     if (!this.searchQuery.trim()) {
       this.showSuggestions = this.recentSearches.length > 0;
     }
@@ -138,8 +137,6 @@ export class WeatherWidgetComponent implements OnInit {
     const date = new Date(dt_txt);
     return date.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric' });
   }
-
-  // Agregar en weather-widget.component.ts
 
   get detailItems() {
     if (!this.currentWeather) return [];
